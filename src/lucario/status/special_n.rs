@@ -82,16 +82,18 @@ unsafe extern "C" fn lucario_special_n_substatus(fighter: &mut L2CFighterCommon,
 }
 
 unsafe extern "C" fn lucario_special_n_joint_translate(fighter: &mut L2CFighterCommon) {
-    let havel = ModelModule::joint_global_position(
+    let havel = &mut Vector3f{x: 0.0, y: 0.0, z: 0.0};
+    let haver = &mut Vector3f{x: 0.0, y: 0.0, z: 0.0};
+    ModelModule::joint_global_position(
         fighter.module_accessor,
         Hash40::new("havel"),
-        &mut Vector3f{x: 0.0, y: 0.0, z: 0.0},
+        havel,
         true
     );
-    let haver = ModelModule::joint_global_position(
+    ModelModule::joint_global_position(
         fighter.module_accessor,
         Hash40::new("haver"),
-        &mut Vector3f{x: 0.0, y: 0.0, z: 0.0},
+        haver,
         true
     );
     let new_pos = Vector3f{x: havel.x + haver.x, y: havel.y + haver.y, z: havel.z + haver.z};
