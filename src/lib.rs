@@ -11,8 +11,10 @@
 
 mod table_const;
 mod sonic;
+mod lucario;
 
 #[skyline::main(name = "smashline_test")]
 pub fn main() {
     sonic::install();
+    lucario::install();
 }
