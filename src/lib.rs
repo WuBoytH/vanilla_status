@@ -6,14 +6,15 @@
     clippy::borrow_interior_mutable_const,
     clippy::collapsible_if,
     clippy::collapsible_else_if,
-    clippy::absurd_extreme_comparisons
+    clippy::absurd_extreme_comparisons,
+    clippy::cmp_null
 )]
 
 mod table_const;
 mod sonic;
 mod lucario;
 
-#[skyline::main(name = "smashline_test")]
+#[skyline::main(name = "vanilla_status")]
 pub fn main() {
     sonic::install();
     lucario::install();
