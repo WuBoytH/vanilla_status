@@ -115,3 +115,30 @@ unsafe fn special_lw_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     }
     return L2CValue::I32(0)
 }
+
+#[status_script(agent = "elight", status = FIGHTER_STATUS_KIND_SPECIAL_LW, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END)]
+pub unsafe fn special_lw_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let lua_state = fighter.lua_state_agent;
+    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    if fighter.global_table[0xb].get_i32() != *FIGHTER_ELEMENT_STATUS_KIND_SPECIAL_LW_STANDBY {
+        let mut event = FighterElementLinkEventChange__new_l2c_table();
+        event["link_event_kind_"].assign(&L2CValue::new_int(0x1cd83c14e3u64));
+        event["object_id_"].assign(&L2CValue::I32(*BATTLE_OBJECT_ID_INVALID));
+        let callable: extern "C" fn() -> *mut smash::app::LinkEvent = std::mem::transmute(event["new_instance_lua_"].get_ptr());
+        let link_event = callable();
+        smash::app::lua_bind::LinkEvent::load_from_l2c_table(link_event,&event);
+        LinkModule::send_event_nodes_struct(module_accessor,*WEAPON_LINK_NO_CONSTRAINT,link_event,0);
+        event = smash::app::lua_bind::LinkEvent::store_l2c_table(link_event);
+        let deleter: extern "C" fn(*mut smash::app::LinkEvent) = std::mem::transmute(*((*(link_event as *const u64) + 0x8) as *const u64));
+        deleter(link_event);
+        let callable: extern "C" fn() -> *mut smash::app::LinkEvent = std::mem::transmute(event["new_instance_lua_"].get_ptr());
+        let link_event = callable();
+        smash::app::lua_bind::LinkEvent::load_from_l2c_table(link_event,&event);
+        LinkModule::send_event_nodes_struct(module_accessor,*ITEM_LINK_NO_HAVE,link_event,0);
+        event = smash::app::lua_bind::LinkEvent::store_l2c_table(link_event);
+        let deleter: extern "C" fn(*mut smash::app::LinkEvent) = std::mem::transmute(*((*(link_event as *const u64) + 0x8) as *const u64));
+        deleter(link_event);
+        AreaModule::set_whole(module_accessor,false);
+    }
+    return L2CValue::I32(0)
+}
