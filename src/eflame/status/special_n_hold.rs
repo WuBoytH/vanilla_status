@@ -52,8 +52,8 @@ unsafe fn special_n_hold_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
         }
     }
     else {
-        let keep_frame_2rot = WorkModule::get_int(module_accessor,hash40("param_special_n"),hash40("keep_frame_2rot")) as f32;
-        let keep_frame_3rot = WorkModule::get_int(module_accessor,hash40("param_special_n"),hash40("keep_frame_3rot")) as f32;
+        let keep_frame_2rot = WorkModule::get_param_int(module_accessor,hash40("param_special_n"),hash40("keep_frame_2rot")) as f32;
+        let keep_frame_3rot = WorkModule::get_param_int(module_accessor,hash40("param_special_n"),hash40("keep_frame_3rot")) as f32;
         if fighter.global_table[0xe].get_f32() < keep_frame_3rot {
             if fighter.global_table[0xe].get_f32() < keep_frame_2rot {
                 WorkModule::set_int(module_accessor,1,*FIGHTER_EFLAME_STATUS_SPECIAL_N_WORK_INT_ROTATE_NUM);
