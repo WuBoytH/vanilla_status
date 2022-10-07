@@ -15,6 +15,7 @@ pub mod singletons;
 mod table_const;
 mod sonic;
 mod lucario;
+mod edge;
 pub mod element;
 mod eflame;
 mod elight;
@@ -23,6 +24,7 @@ mod elight;
 pub fn main() {
     sonic::install();
     lucario::install();
+    edge::install();
     eflame::install();
     elight::install();
 }
