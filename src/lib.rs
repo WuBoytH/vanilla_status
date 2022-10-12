@@ -13,6 +13,7 @@
 
 pub mod singletons;
 mod table_const;
+mod ike;
 mod sonic;
 mod lucario;
 mod edge;
@@ -22,6 +23,7 @@ mod elight;
 
 #[skyline::main(name = "vanilla_status")]
 pub fn main() {
+    ike::install();
     sonic::install();
     lucario::install();
     edge::install();
