@@ -1,6 +1,5 @@
 unsafe fn special_n_kinetics_setup(fighter: &mut L2CFighterCommon) {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     fighter.sub_exec_special_start_common_kinetic_setting(L2CValue::new_int(hash40("param_special_n")));
     if WorkModule::is_flag(module_accessor,*FIGHTER_ELIGHT_STATUS_SPECIAL_N_FLAG_HIT_ATTACK) == false {
         if fighter.global_table[0x16].get_i32() != *SITUATION_KIND_GROUND
@@ -63,8 +62,7 @@ unsafe fn special_n_kinetics_setup(fighter: &mut L2CFighterCommon) {
 
 #[status_script(agent = "elight", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_n_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if fighter.global_table[0x2].get_i32() == *FIGHTER_KIND_KIRBY {
         if WorkModule::get_int(module_accessor,*FIGHTER_KIRBY_INSTANCE_WORK_ID_INT_COPY_CHARA) == *FIGHTER_KIND_ELIGHT {
             if ArticleModule::is_exist(module_accessor,*FIGHTER_ELIGHT_GENERATE_ARTICLE_ESWORD) {
@@ -117,8 +115,7 @@ pub unsafe fn special_n_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_n_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if MotionModule::is_end(module_accessor) == false {
         fighter.sub_change_motion_by_situation(L2CValue::new_int(hash40("special_n_start")),L2CValue::new_int(hash40("special_air_n_start")),L2CValue::new_bool(true));
         special_n_kinetics_setup(fighter);
