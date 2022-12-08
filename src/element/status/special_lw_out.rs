@@ -192,5 +192,4 @@ unsafe fn special_lw_out_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
         KineticModule::unable_energy(fighter.module_accessor, *FIGHTER_KINETIC_ENERGY_ID_STOP);
     }
     0.into()
-    0.into()
 }
