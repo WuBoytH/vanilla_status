@@ -29,11 +29,11 @@ pub unsafe fn special_s_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     fighter.sub_shift_status_main(L2CValue::Ptr(special_s_main_loop as *const () as _))
 }
 
-unsafe fn special_s_main_loop(fighter: &mut L2CFighterBase) -> L2CValue {
+unsafe fn special_s_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     let lua_state = fighter.lua_state_agent;
     let module_accessor = sv_system::battle_object_module_accessor(lua_state);
     if MotionModule::is_end(module_accessor) {
-        fighter.change_status(FIGHTER_IKE_STATUS_KIND_SPECIAL_S_HOLD.into(),false.into());
+        fighter.change_status(FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_JUMP.into(),false.into());
     }
     else {
         if MotionModule::frame(module_accessor) >= 7.9 {
