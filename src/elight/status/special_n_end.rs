@@ -1,7 +1,6 @@
 #[status_script(agent = "elight", status = FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_N_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_n_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     let held_frames = WorkModule::get_int(module_accessor,*FIGHTER_ELIGHT_STATUS_SPECIAL_N_INT_HOLD_FRAME) as f32;
     let charge_frame = WorkModule::get_param_int(module_accessor,hash40("param_special_n"),hash40("charge_frame")) as f32;
     let attack_charge_max_mul = WorkModule::get_param_float(module_accessor,hash40("param_special_n"),hash40("attack_charge_max_mul"));
@@ -21,8 +20,7 @@ pub unsafe fn special_n_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_n_end_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if CancelModule::is_enable_cancel(module_accessor) == false
     || (fighter.sub_wait_ground_check_common(L2CValue::new_bool(false)).get_bool() == false
     && fighter.sub_air_check_fall_common().get_bool() == false) {
