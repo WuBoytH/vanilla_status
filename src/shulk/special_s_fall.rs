@@ -1,7 +1,6 @@
 #[status_script(agent = "shulk", status = FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_FALL, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_s_fall_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     AttackModule::set_accept_no_lr(module_accessor,0,true);
     let speed_x = KineticModule::get_sum_speed_x(module_accessor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     let speed_y = KineticModule::get_sum_speed_y(module_accessor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
@@ -37,8 +36,7 @@ pub unsafe fn special_s_fall_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_s_fall_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if fighter.sub_transition_group_check_air_cliff().get_bool() == false {
         let cut_fall_accel_y = WorkModule::get_param_float(module_accessor,hash40("param_special_s"),hash40("cut_fall_accel_y")) * -1.0;
         fighter.clear_lua_stack();
