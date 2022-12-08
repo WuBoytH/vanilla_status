@@ -1,7 +1,6 @@
 #[status_script(agent = "shulk", status = FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_JUMP, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_s_jump_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     AttackModule::set_accept_no_lr(module_accessor,0,true);
     ItemModule::set_have_item_visibility(module_accessor,false,0);
     let mut speed_x = WorkModule::get_param_float(module_accessor,hash40("param_special_s"),hash40("speed_x"));
@@ -47,8 +46,7 @@ pub unsafe fn special_s_jump_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_s_jump_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if MotionModule::is_end(module_accessor) {
         fighter.change_status(FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_FALL.into(),false.into());
     }
