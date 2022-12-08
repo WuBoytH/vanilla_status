@@ -1,6 +1,5 @@
 unsafe fn special_n_kinetics_setup(fighter: &mut L2CFighterCommon) {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     let speed_x = KineticModule::get_sum_speed_x(module_accessor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     fighter.clear_lua_stack();
     lua_args!(fighter,*FIGHTER_KINETIC_ENERGY_ID_GRAVITY);
@@ -62,8 +61,7 @@ unsafe fn special_n_kinetics_setup(fighter: &mut L2CFighterCommon) {
 
 #[status_script(agent = "eflame", status = FIGHTER_EFLAME_STATUS_KIND_SPECIAL_N_ATTACK, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_n_attack_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     match WorkModule::get_int(module_accessor,*FIGHTER_EFLAME_STATUS_SPECIAL_N_WORK_INT_ROTATE_NUM) {
         2 => fighter.sub_change_motion_by_situation(L2CValue::new_int(hash40("special_n2")),L2CValue::new_int(hash40("special_air_n2")),L2CValue::new_bool(false)),
         3 => fighter.sub_change_motion_by_situation(L2CValue::new_int(hash40("special_n3")),L2CValue::new_int(hash40("special_air_n3")),L2CValue::new_bool(false)),
@@ -75,8 +73,7 @@ pub unsafe fn special_n_attack_main(fighter: &mut L2CFighterCommon) -> L2CValue 
 }
 
 unsafe fn special_n_attack_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if MotionModule::is_end(module_accessor) {
         fighter.change_status(FIGHTER_EFLAME_STATUS_KIND_SPECIAL_N_END.into(),false.into());
     }
