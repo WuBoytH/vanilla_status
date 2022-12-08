@@ -1,7 +1,6 @@
 #[status_script(agent = "shulk", status = FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_LANDING, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_s_landing_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     let speed_x = KineticModule::get_sum_speed_x(module_accessor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     let speed_y = KineticModule::get_sum_speed_y(module_accessor,*KINETIC_ENERGY_RESERVE_ATTRIBUTE_MAIN);
     fighter.clear_lua_stack();
@@ -33,8 +32,7 @@ pub unsafe fn special_s_landing_main(fighter: &mut L2CFighterCommon) -> L2CValue
 }
 
 unsafe fn special_s_landing_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if CancelModule::is_enable_cancel(module_accessor)
     && fighter.sub_wait_ground_check_common(false.into()).get_bool() == false
     && fighter.sub_air_check_fall_common().get_bool() {
