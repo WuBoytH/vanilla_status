@@ -1,7 +1,6 @@
 #[status_script(agent = "eflame", status = FIGHTER_EFLAME_STATUS_KIND_SPECIAL_N_HOLD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_n_hold_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     fighter.sub_change_motion_by_situation(L2CValue::new_int(hash40("special_n_hold")),L2CValue::new_int(hash40("special_air_n_hold")),L2CValue::new_bool(false));
     fighter.sub_set_ground_correct_by_situation(L2CValue::new_bool(true));
     WorkModule::off_flag(module_accessor,*FIGHTER_EFLAME_STATUS_SPECIAL_N_WORK_FLAG_SPEED_CHANGE_HOLD_END_CHANGED);
@@ -10,8 +9,7 @@ pub unsafe fn special_n_hold_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_n_hold_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     let keep_frame_max = WorkModule::get_param_int(module_accessor,hash40("param_special_n"),hash40("keep_frame_max")) as f32;
     let mut unk = false;
     if ControlModule::check_button_on(module_accessor,*CONTROL_PAD_BUTTON_SPECIAL) == false {
