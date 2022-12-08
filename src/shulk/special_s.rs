@@ -1,7 +1,6 @@
 #[status_script(agent = "shulk", status = FIGHTER_STATUS_KIND_SPECIAL_S, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn special_s_main(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if fighter.global_table[0x16].get_i32() != *SITUATION_KIND_GROUND {
         MotionModule::change_motion(module_accessor,Hash40::new("special_air_s"),0.0,1.0,false,0.0,false,false);
     }
@@ -30,8 +29,7 @@ pub unsafe fn special_s_main(fighter: &mut L2CFighterCommon) -> L2CValue {
 }
 
 unsafe fn special_s_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    let lua_state = fighter.lua_state_agent;
-    let module_accessor = sv_system::battle_object_module_accessor(lua_state);
+    let module_accessor = fighter.module_accessor;
     if MotionModule::is_end(module_accessor) {
         fighter.change_status(FIGHTER_SHULK_STATUS_KIND_SPECIAL_S_JUMP.into(),false.into());
     }
