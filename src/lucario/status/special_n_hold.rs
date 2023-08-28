@@ -1,12 +1,5 @@
 use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        hash40,
-        app::{lua_bind::*, *},
-        lib::{lua_const::*, L2CValue}
-    },
-    smashline::*,
-    crate::table_const::*,
+    crate::imports::status_imports::*,
     super::helper::*
 };
 

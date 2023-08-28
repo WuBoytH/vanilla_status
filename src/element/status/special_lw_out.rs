@@ -1,14 +1,5 @@
 use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        hash40,
-        phx::*,
-        app::{lua_bind::*, *},
-        lib::{lua_const::*, L2CValue}
-    },
-    smash_script::*,
-    crate::singletons::FIGHTER_MANAGER,
-    crate::table_const::*
+    crate::imports::status_imports::*
 };
 
 unsafe fn setup_motion_out(fighter: &mut L2CFighterCommon, first: bool) {
@@ -143,7 +134,7 @@ pub unsafe fn element_special_lw_out_main(fighter: &mut L2CFighterCommon) -> L2C
             WorkModule::set_int(fighter.module_accessor, 1, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
         }
     }
-    let cond = lua_bind::FighterManager::is_result_mode(FIGHTER_MANAGER);
+    let cond = lua_bind::FighterManager::is_result_mode(singletons::FighterManager());
     WorkModule::set_flag(fighter.module_accessor,cond, *FIGHTER_ELEMENT_STATUS_SPECIAL_LW_IS_RESULT);
     setup_motion_out(fighter, true);
     MotionAnimcmdModule::flush(fighter.module_accessor, false);
@@ -169,7 +160,7 @@ unsafe fn special_lw_out_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     }
     if !StatusModule::is_changing(fighter.module_accessor)
     && StatusModule::is_situation_changed(fighter.module_accessor) {
-        element_special_lw_out_mot_helper(fighter, false);
+        setup_motion_out(fighter, false);
     }
     if fighter.global_table[SITUATION_KIND].get_i32() == *SITUATION_KIND_AIR
     && cancel

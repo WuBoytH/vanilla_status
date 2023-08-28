@@ -1,14 +1,4 @@
-use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        hash40,
-        phx::*,
-        app::lua_bind::*,
-        lib::{lua_const::*, L2CValue}
-    },
-    smashline::*,
-    crate::table_const::*
-};
+use crate::imports::status_imports::*;
 
 #[status_script(agent = "elight", status = FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_S_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
 pub unsafe fn elight_special_s_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {

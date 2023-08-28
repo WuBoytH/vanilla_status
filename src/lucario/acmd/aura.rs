@@ -1,13 +1,4 @@
-use {
-    smash::{
-        lua2cpp::L2CAgentBase,
-        phx::Hash40,
-        app::{sv_animcmd::*, *},
-        lib::lua_const::*
-    },
-    smash_script::*,
-    smashline::*
-};
+use crate::imports::acmd_imports::*;
 
 #[acmd_script( agent = "lucario", script = "effect_hadou_l" , category = ACMD_EFFECT, low_priority )]
 unsafe fn lucario_hadou_handl(fighter: &mut L2CAgentBase) {

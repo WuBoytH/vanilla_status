@@ -1,12 +1,4 @@
-use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        phx::*,
-        app::{lua_bind::*, *},
-        lib::{lua_const::*, L2CValue}
-    },
-    crate::table_const::*
-};
+use crate::imports::status_imports::*;
 
 pub unsafe fn element_special_lw_standby_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     HitModule::set_whole(fighter.module_accessor, HitStatus(*HIT_STATUS_OFF), 0);

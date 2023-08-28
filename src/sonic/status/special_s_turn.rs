@@ -1,14 +1,4 @@
-use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        phx::Hash40,
-        app::{lua_bind::*, *},
-        lib::{lua_const::*, L2CValue}
-    },
-    smash_script::*,
-    smashline::*,
-    crate::table_const::*
-};
+use crate::imports::status_imports::*;
 
 #[status_script(agent = "sonic", status = FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
 unsafe fn sonic_special_s_turn_pre(fighter: &mut L2CFighterCommon) -> L2CValue {

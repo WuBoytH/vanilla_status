@@ -1,12 +1,4 @@
-use {
-    smash::{
-        lua2cpp::L2CFighterCommon,
-        phx::Hash40,
-        app::{lua_bind::*, *},
-        lib::lua_const::*
-    },
-    crate::table_const::*
-};
+use crate::imports::status_imports::*;
 
 pub unsafe extern "C" fn lucario_special_set_kinetic(fighter: &mut L2CFighterCommon) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {

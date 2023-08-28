@@ -1,9 +1,5 @@
 use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        lib::{lua_const::*, L2CValue}
-    },
-    smashline::*,
+    crate::imports::status_imports::*,
     crate::element::status::special_lw_out::*
 };
 

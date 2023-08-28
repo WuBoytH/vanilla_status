@@ -1,14 +1,5 @@
 use {
-    smash::{
-        lua2cpp::{L2CFighterCommon},
-        hash40,
-        phx::*,
-        app::{lua_bind::*, *},
-        lib::{lua_const::*, L2CValue}
-    },
-    smash_script::*,
-    crate::singletons::FIGHTER_MANAGER,
-    crate::table_const::*,
+    crate::imports::status_imports::*,
     super::super::helper::*
 };
 
@@ -116,8 +107,7 @@ pub unsafe fn element_special_lw_main(fighter: &mut L2CFighterCommon) -> L2CValu
     let deleter: extern "C" fn(*mut smash::app::LinkEvent) = std::mem::transmute(*((*(link_event as *const u64) + 0x8) as *const u64));
     deleter(link_event);
     let entry_id = WorkModule::get_int(fighter.module_accessor,*FIGHTER_INSTANCE_WORK_ID_INT_ENTRY_ID);
-    let fighter_manager = *(FIGHTER_MANAGER as *mut *mut smash::app::FighterManager);
-    let fighter_info = lua_bind::FighterManager::get_fighter_information(fighter_manager,FighterEntryID(entry_id));
+    let fighter_info = lua_bind::FighterManager::get_fighter_information(singletons::FighterManager(),FighterEntryID(entry_id));
     if lua_bind::FighterInformation::is_rabbit_cap(fighter_info) {
         ItemModule::eject_attach(fighter.module_accessor, ItemKind(*ITEM_KIND_USAGIHAT),  true, true);
     }
