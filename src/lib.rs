@@ -11,7 +11,6 @@
     clippy::missing_safety_doc
 )]
 
-pub mod singletons;
 mod imports;
 mod table_const;
 mod ike;
