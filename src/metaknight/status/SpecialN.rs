@@ -71,7 +71,7 @@ unsafe extern "C" fn metaknight_special_n_main_loop(fighter: &mut L2CFighterComm
 unsafe fn status_metaknight_special_n_end(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[STATUS_KIND].get_i32() != *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN {
         fighter.clear_lua_stack();
-        lua_args!(fighter, *MA_MSC_EFFECT_SET_SYNC_SCALE, Hash40::new_raw(0x1230d89b8b), false, false);
+        lua_args!(fighter, *MA_MSC_CMD_EFFECT_EFFECT_OFF_KIND, Hash40::new_raw(0x1230d89b8b), false, false);
         sv_module_access::effect(fighter.lua_state_agent);
         fighter.pop_lua_stack(1);
     }
