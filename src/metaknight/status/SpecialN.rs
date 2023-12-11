@@ -1,14 +1,12 @@
 use crate::imports::status_imports::*;
 
-#[status_script( agent = "metaknight", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-unsafe fn status_metaknight_special_n_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialN_Pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(fighter.module_accessor, SituationKind(*SITUATION_KIND_NONE), *FIGHTER_KINETIC_TYPE_METAKNIGHT_SPECIAL_AIR_N, *GROUND_CORRECT_KIND_AIR as u32, GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_NONE), true, *FIGHTER_STATUS_WORK_KEEP_FLAG_NONE_FLAG, *FIGHTER_STATUS_WORK_KEEP_FLAG_NONE_INT, *FIGHTER_STATUS_WORK_KEEP_FLAG_NONE_FLOAT, 0);
     FighterStatusModuleImpl::set_fighter_status_data(fighter.module_accessor, false, *FIGHTER_TREADED_KIND_NO_REAC, false, false, false, (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_N | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK | *FIGHTER_LOG_MASK_FLAG_ACTION_TRIGGER_ON) as u64, *FIGHTER_STATUS_ATTR_DISABLE_GROUND_FRICTION as u32, *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N as u32, 0);
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN )]
-unsafe fn status_metaknight_special_n_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialN_Main(fighter: &mut L2CFighterCommon) -> L2CValue {
     KineticModule::clear_speed_energy_id(fighter.module_accessor, *FIGHTER_KINETIC_ENERGY_ID_DAMAGE);
     WorkModule::set_int(fighter.module_accessor, -1, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_EFFECT_START_FRAME);
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {
@@ -28,7 +26,7 @@ unsafe fn status_metaknight_special_n_main(fighter: &mut L2CFighterCommon) -> L2
     fighter.sub_shift_status_main(L2CValue::Ptr(metaknight_special_n_main_loop as *const () as _))
 }
 
-pub unsafe fn ground_kinetic_function(fighter: &mut L2CFighterCommon) {
+pub unsafe extern "C" fn ground_kinetic_function(fighter: &mut L2CFighterCommon) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {
         GroundModule::correct(fighter.module_accessor, GroundCorrectKind(*GROUND_CORRECT_KIND_AIR));
         KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_METAKNIGHT_SPECIAL_AIR_N);
@@ -67,8 +65,7 @@ unsafe extern "C" fn metaknight_special_n_main_loop(fighter: &mut L2CFighterComm
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_STATUS_KIND_SPECIAL_N, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END)]
-unsafe fn status_metaknight_special_n_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialN_End(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[STATUS_KIND].get_i32() != *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN {
         fighter.clear_lua_stack();
         lua_args!(fighter, *MA_MSC_CMD_EFFECT_EFFECT_OFF_KIND, Hash40::new_raw(0x1230d89b8b), false, false);
@@ -79,9 +76,9 @@ unsafe fn status_metaknight_special_n_end(fighter: &mut L2CFighterCommon) -> L2C
 }
 
 pub fn install() {
-    install_status_scripts!(
-        status_metaknight_special_n_pre,
-        status_metaknight_special_n_main,
-        status_metaknight_special_n_end
-    );
+    Agent::new("metaknight")
+    .status(Pre, *FIGHTER_STATUS_KIND_SPECIAL_N, status_metaknight_SpecialN_Pre)
+    .status(Main, *FIGHTER_STATUS_KIND_SPECIAL_N, status_metaknight_SpecialN_Main)
+    .status(End, *FIGHTER_STATUS_KIND_SPECIAL_N, status_metaknight_SpecialN_End)
+    .install();
 }

@@ -1,14 +1,12 @@
 use crate::imports::status_imports::*;
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-unsafe fn status_metaknight_special_n_end_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNEnd_Pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(fighter.module_accessor, SituationKind(*SITUATION_KIND_NONE), *FIGHTER_KINETIC_TYPE_UNIQ, *GROUND_CORRECT_KIND_KEEP as u32, GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_NONE), true, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLAG, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_INT, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLOAT, 0);
     FighterStatusModuleImpl::set_fighter_status_data(fighter.module_accessor, false, *FIGHTER_TREADED_KIND_NO_REAC, false, false, false, (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_N | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK) as u64, *FIGHTER_STATUS_ATTR_DISABLE_GROUND_FRICTION as u32, *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N as u32, 0);
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN )]
-unsafe fn status_metaknight_special_n_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNEnd_Main(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::set_int64(fighter.module_accessor, hash40("special_n_end") as i64, *FIGHTER_METAKNIGHT_STATUS_WORK_INT_MOT_KIND);
     WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_end") as i64, *FIGHTER_METAKNIGHT_STATUS_WORK_INT_MOT_AIR_KIND);
     WorkModule::enable_transition_term(fighter.module_accessor, *FIGHTER_STATUS_TRANSITION_TERM_ID_WAIT);
@@ -25,7 +23,7 @@ unsafe fn status_metaknight_special_n_end_main(fighter: &mut L2CFighterCommon) -
     fighter.sub_shift_status_main(L2CValue::Ptr(metaknight_special_n_end_loop as *const () as _))
 }
 
-unsafe fn metaknight_special_n_end_motion_handler(fighter: &mut L2CFighterCommon) {
+unsafe extern "C" fn metaknight_special_n_end_motion_handler(fighter: &mut L2CFighterCommon) {
     let motion_kind = MotionModule::motion_kind(fighter.module_accessor);
     let situation_kind = fighter.global_table[SITUATION_KIND].get_i32();
     let sum_speed = KineticModule::get_sum_speed(fighter.module_accessor, -1);
@@ -139,22 +137,20 @@ unsafe extern "C" fn metaknight_special_n_end_loop(fighter: &mut L2CFighterCommo
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, condition = LUA_SCRIPT_STATUS_FUNC_EXEC_STATUS )]
-unsafe extern "C" fn status_metaknight_special_n_end_exec(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNEnd_Exec(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::inc_int(fighter.module_accessor, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_EFFECT_FRAME);
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END )]
-unsafe fn status_metaknight_special_n_end_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNEnd_End(fighter: &mut L2CFighterCommon) -> L2CValue {
     0.into()
 }
 
 pub fn install() {
-    install_status_scripts!(
-        status_metaknight_special_n_end_pre,
-        status_metaknight_special_n_end_main,
-        status_metaknight_special_n_end_exec,
-        status_metaknight_special_n_end_end
-    );
+    Agent::new("metaknight")
+    .status(Pre, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, status_metaknight_SpecialNEnd_Pre)
+    .status(Main, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, status_metaknight_SpecialNEnd_Main)
+    .status(Exec, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, status_metaknight_SpecialNEnd_Exec)
+    .status(End, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END, status_metaknight_SpecialNEnd_End)
+    .install();
 }

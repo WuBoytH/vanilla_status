@@ -1,22 +1,19 @@
 use crate::imports::status_imports::*;
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-unsafe fn status_metaknight_special_n_spin_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNSpin_Pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(fighter.module_accessor, SituationKind(*SITUATION_KIND_AIR), *FIGHTER_KINETIC_TYPE_METAKNIGHT_SPECIAL_AIR_N, *GROUND_CORRECT_KIND_AIR as u32, GroundCliffCheckKind(*GROUND_CLIFF_CHECK_KIND_NONE), true, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLAG, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_INT, *FIGHTER_STATUS_WORK_KEEP_FLAG_ALL_FLOAT, 0);
     FighterStatusModuleImpl::set_fighter_status_data(fighter.module_accessor, false, *FIGHTER_TREADED_KIND_NO_REAC, false, false, false, (*FIGHTER_LOG_MASK_FLAG_ATTACK_KIND_SPECIAL_N | *FIGHTER_LOG_MASK_FLAG_ACTION_CATEGORY_ATTACK) as u64, *FIGHTER_STATUS_ATTR_DISABLE_GROUND_FRICTION as u32, *FIGHTER_POWER_UP_ATTACK_BIT_SPECIAL_N as u32, 0);
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, condition = LUA_SCRIPT_STATUS_FUNC_INIT_STATUS)]
-unsafe fn status_metaknight_special_n_spin_init(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNSpin_Init(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_FLAG_EFFECT_ON);
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_FLAG_ADD_ATTACK_ON);
     WorkModule::set_int(fighter.module_accessor, 0, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_ATTACK_ID_FRAME)
     0.into()
 }
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN )]
-unsafe fn status_metaknight_special_n_spin_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNSpin_Main(fighter: &mut L2CFighterCommon) -> L2CValue {
     let button_unable_frame = WorkModule::get_param_int(fighter.module_accessor, hash40("param_special_n"), hash40("button_unable_frame"));
     let start_rot_speed = WorkModule::get_param_float(fighter.module_accessor, hash40("param_special_n"), hash40("start_rot_speed"));
     WorkModule::set_int(fighter.module_accessor, button_unable_frame, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_BUTTON_UNABLE_COUNTER);
@@ -39,7 +36,7 @@ unsafe fn status_metaknight_special_n_spin_main(fighter: &mut L2CFighterCommon) 
     fighter.sub_shift_status_main(L2CValue::Ptr(metaknight_special_n_spin_loop as *const () as _))
 }
 
-unsafe fn metaknight_special_n_spin_handler(fighter: &mut L2CFighterCommon) {
+unsafe extern "C" fn metaknight_special_n_spin_handler(fighter: &mut L2CFighterCommon) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {
         GroundModule::correct(fighter.module_accessor, GroundCorrectKind(*GROUND_CORRECT_KIND_AIR));
         KineticModule::change_kinetic(fighter.module_accessor, *FIGHTER_KINETIC_TYPE_METAKNIGHT_SPECIAL_AIR_N);
@@ -52,7 +49,7 @@ unsafe fn metaknight_special_n_spin_handler(fighter: &mut L2CFighterCommon) {
     return;
 }
 
-unsafe fn metaknight_special_n_spin_sound_handler(fighter: &mut L2CFighterCommon, param_3: L2CValue) -> L2CValue {
+unsafe extern "C" fn metaknight_special_n_spin_sound_handler(fighter: &mut L2CFighterCommon, param_3: L2CValue) -> L2CValue {
     if param_3.get_bool() {
         WorkModule::inc_int(fighter.module_accessor, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_BUTTON_HOP_COUNT);
         WorkModule::dec_int(fighter.module_accessor, *FIGHTER_METAKNIGHT_STATUS_SPECIAL_N_SPIN_WORK_INT_START_SE);
@@ -110,8 +107,7 @@ unsafe extern "C" fn metaknight_special_n_spin_loop(fighter: &mut L2CFighterComm
 
 /*MISSING EXEC STATUS*/
 
-#[status_script( agent = "metaknight", status = FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END )]
-unsafe fn status_metaknight_special_n_end_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn status_metaknight_SpecialNSpin_End(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[STATUS_KIND].get_i32() != *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_END {
         fighter.clear_lua_stack();
         lua_args!(fighter, *MA_MSC_CMD_EFFECT_EFFECT_OFF_KIND, Hash40::new_raw(0x1230d89b8b), false, false);
@@ -122,10 +118,10 @@ unsafe fn status_metaknight_special_n_end_end(fighter: &mut L2CFighterCommon) ->
 }
 
 pub fn install() {
-    install_status_scripts!(
-        status_metaknight_special_n_spin_pre,
-        status_metaknight_special_n_spin_init,
-        status_metaknight_special_n_spin_main,
-        status_metaknight_special_n_spin_end
-    );
+    Agent::new("metaknight")
+    .status(Pre, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, status_metaknight_SpecialNSpin_Pre)
+    .status(Init, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, status_metaknight_SpecialNSpin_Init)
+    .status(Main, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, status_metaknight_SpecialNSpin_Main)
+    .status(End, *FIGHTER_METAKNIGHT_STATUS_KIND_SPECIAL_N_SPIN, status_metaknight_SpecialNSpin_End)
+    .install();
 }
