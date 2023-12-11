@@ -1,7 +1,6 @@
 use crate::imports::status_imports::*;
 
-#[status_script(agent = "elight", status = FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_HI_JUMP, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
-pub unsafe fn elight_special_hi_jump_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn elight_special_hi_jump_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     MotionModule::change_motion(
         fighter.module_accessor,
         Hash40::new("special_air_hi_jump"),
@@ -54,7 +53,7 @@ pub unsafe fn elight_special_hi_jump_main(fighter: &mut L2CFighterCommon) -> L2C
     fighter.sub_shift_status_main(L2CValue::Ptr(special_hi_jump_main_loop as *const () as _))
 }
 
-unsafe fn special_hi_jump_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_hi_jump_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         return 1.into();
     }
@@ -83,8 +82,6 @@ unsafe fn special_hi_jump_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue 
     0.into()
 }
 
-pub fn install() {
-    install_status_scripts!(
-        elight_special_hi_jump_main
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.status(Main, *FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_HI_JUMP, elight_special_hi_jump_main);
 }

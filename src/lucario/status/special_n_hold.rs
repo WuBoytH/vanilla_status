@@ -3,8 +3,7 @@ use {
     super::helper::*
 };
 
-#[status_script(agent = "lucario", status = FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-unsafe fn lucario_special_n_hold_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn lucario_special_n_hold_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(
         fighter.module_accessor,
         SituationKind(*SITUATION_KIND_NONE),
@@ -32,8 +31,7 @@ unsafe fn lucario_special_n_hold_pre(fighter: &mut L2CFighterCommon) -> L2CValue
     0.into()
 }
 
-#[status_script(agent = "lucario", status = FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
-unsafe fn lucario_special_n_hold_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn lucario_special_n_hold_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_FLAG_MOT_INHERIT);
     WorkModule::set_int64(fighter.module_accessor, hash40("special_n_hold") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_GROUND_MOT);
     WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_hold") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AIR_MOT);
@@ -153,14 +151,13 @@ unsafe extern "C" fn lucario_special_n_hold_check_cancel(fighter: &mut L2CFighte
     false.into()
 }
 
-#[status_script(agent = "lucario", status = FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END)]
-unsafe fn lucario_special_n_hold_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn lucario_special_n_hold_end(fighter: &mut L2CFighterCommon) -> L2CValue {
     lucario_special_n_save_charge_status(fighter);
     0.into()
 }
 
-pub fn install() {
-    install_status_scripts!(
-        lucario_special_n_hold_pre, lucario_special_n_hold_main, lucario_special_n_hold_end
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.status(Pre, *FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, lucario_special_n_hold_pre);
+    agent.status(Main, *FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, lucario_special_n_hold_main);
+    agent.status(End, *FIGHTER_LUCARIO_STATUS_KIND_SPECIAL_N_HOLD, lucario_special_n_hold_end);
 }

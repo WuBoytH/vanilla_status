@@ -1,5 +1,7 @@
 mod status;
 
 pub fn install() {
-    status::install();
+    let agent = &mut smashline::Agent::new("sonic");
+    status::install(agent);
+    agent.install();
 }

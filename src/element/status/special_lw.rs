@@ -3,7 +3,7 @@ use {
     super::super::helper::*
 };
 
-unsafe fn setup_motion(fighter: &mut L2CFighterCommon, unk: bool) {
+unsafe extern "C" fn setup_motion(fighter: &mut L2CFighterCommon, unk: bool) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {
         if unk {
             MotionModule::change_motion(
@@ -64,7 +64,7 @@ unsafe fn setup_motion(fighter: &mut L2CFighterCommon, unk: bool) {
     }
 }
 
-unsafe fn setup_energy(fighter: &mut L2CFighterCommon) {
+unsafe extern "C" fn setup_energy(fighter: &mut L2CFighterCommon) {
     if fighter.global_table[SITUATION_KIND].get_i32() == *SITUATION_KIND_GROUND {
         fighter.clear_lua_stack();
         lua_args!(fighter,*FIGHTER_KINETIC_ENERGY_ID_STOP);
@@ -87,7 +87,7 @@ unsafe fn setup_energy(fighter: &mut L2CFighterCommon) {
     }
 }
 
-pub unsafe fn element_special_lw_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn element_special_lw_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     let mut event = FighterElementLinkEventChange__new_l2c_table();
     event["link_event_kind_"].assign(&L2CValue::new_int(0x1cd83c14e3u64));
     event["object_id_"].assign(&L2CValue::I32(*BATTLE_OBJECT_ID_INVALID));
@@ -132,7 +132,7 @@ pub unsafe fn element_special_lw_main(fighter: &mut L2CFighterCommon) -> L2CValu
     fighter.sub_shift_status_main(L2CValue::Ptr(special_lw_main_loop as *const () as _))
 }
 
-unsafe fn special_lw_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_lw_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if MotionModule::is_end(fighter.module_accessor) {
         fighter.change_status(FIGHTER_ELEMENT_STATUS_KIND_SPECIAL_LW_STANDBY.into(), false.into());
         if !fighter.global_table[IS_STOP].get_bool() {
@@ -150,7 +150,7 @@ unsafe fn special_lw_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     0.into()
 }
 
-pub unsafe fn element_special_lw_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn element_special_lw_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[STATUS_KIND].get_i32() != *FIGHTER_ELEMENT_STATUS_KIND_SPECIAL_LW_STANDBY {
         let mut event = FighterElementLinkEventChange__new_l2c_table();
         event["link_event_kind_"].assign(&L2CValue::new_int(0x1cd83c14e3u64));

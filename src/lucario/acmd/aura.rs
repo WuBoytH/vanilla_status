@@ -1,7 +1,6 @@
 use crate::imports::acmd_imports::*;
 
-#[acmd_script( agent = "lucario", script = "effect_hadou_l" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadou_handl(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadou_handl(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -23,8 +22,7 @@ unsafe fn lucario_hadou_handl(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "lucario", script = "effect_hadou_r" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadou_handr(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadou_handr(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -46,8 +44,7 @@ unsafe fn lucario_hadou_handr(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "lucario", script = "effect_hadoum_l" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadoum_handl(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadoum_handl(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -69,8 +66,7 @@ unsafe fn lucario_hadoum_handl(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "lucario", script = "effect_hadoum_r" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadoum_handr(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadoum_handr(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -92,8 +88,7 @@ unsafe fn lucario_hadoum_handr(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "lucario", script = "effect_hadoul_l" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadoul_handl(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadoul_handl(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -115,8 +110,7 @@ unsafe fn lucario_hadoul_handl(fighter: &mut L2CAgentBase) {
     }
 }
 
-#[acmd_script( agent = "lucario", script = "effect_hadoul_r" , category = ACMD_EFFECT, low_priority )]
-unsafe fn lucario_hadoul_handr(fighter: &mut L2CAgentBase) {
+unsafe extern "C" fn lucario_hadoul_handr(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
         180.0
     }
@@ -138,13 +132,16 @@ unsafe fn lucario_hadoul_handr(fighter: &mut L2CAgentBase) {
     }
 }
 
-pub fn install() {
-    install_acmd_scripts!(
-        lucario_hadou_handl,
-        lucario_hadou_handr,
-        lucario_hadoum_handl,
-        lucario_hadoum_handr,
-        lucario_hadoul_handl,
-        lucario_hadoul_handr
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.effect_acmd("effect_hadou_l", lucario_hadou_handl);
+
+    agent.effect_acmd("effect_hadou_r", lucario_hadou_handr);
+
+    agent.effect_acmd("effect_hadoum_l", lucario_hadoum_handl);
+
+    agent.effect_acmd("effect_hadoum_r", lucario_hadoum_handr);
+
+    agent.effect_acmd("effect_hadoul_l", lucario_hadoul_handl);
+
+    agent.effect_acmd("effect_hadoul_r", lucario_hadoul_handr);
 }

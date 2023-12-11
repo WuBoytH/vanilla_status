@@ -1,7 +1,6 @@
 use crate::imports::status_imports::*;
 
-#[status_script(agent = "elight", status = FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_S_FORWARD, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
-pub unsafe fn elight_special_s_forward_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn elight_special_s_forward_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_ELIGHT_STATUS_SPECIAL_S_FLAG_IS_CHECK_CLIFF);
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_ELIGHT_STATUS_SPECIAL_S_FLAG_IS_NEAR_CLIFF);
     if fighter.global_table[SITUATION_KIND].get_i32() == *SITUATION_KIND_GROUND {
@@ -60,7 +59,7 @@ pub unsafe fn elight_special_s_forward_main(fighter: &mut L2CFighterCommon) -> L
     fighter.sub_shift_status_main(L2CValue::Ptr(special_s_forward_main_loop as *const () as _))
 }
 
-unsafe fn special_s_forward_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_s_forward_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         return 0.into();
     }
@@ -115,8 +114,6 @@ unsafe fn special_s_forward_main_loop(fighter: &mut L2CFighterCommon) -> L2CValu
     0.into()
 }
 
-pub fn install() {
-    install_status_scripts!(
-        elight_special_s_forward_main
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.status(Main, *FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_S_FORWARD, elight_special_s_forward_main);
 }

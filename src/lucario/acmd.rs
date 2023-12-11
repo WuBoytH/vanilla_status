@@ -1,5 +1,5 @@
 mod aura;
 
-pub fn install() {
-    aura::install();
+pub fn install(agent: &mut smashline::Agent) {
+    aura::install(agent);
 }
