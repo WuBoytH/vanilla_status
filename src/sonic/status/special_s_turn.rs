@@ -1,7 +1,6 @@
 use crate::imports::status_imports::*;
 
-#[status_script(agent = "sonic", status = FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_PRE)]
-unsafe fn sonic_special_s_turn_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn sonic_special_s_turn_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(
         fighter.module_accessor,
         SituationKind(*SITUATION_KIND_GROUND),
@@ -39,8 +38,7 @@ unsafe fn sonic_special_s_turn_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     0.into()
 }
 
-#[status_script(agent = "sonic", status = FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
-unsafe fn sonic_special_s_turn_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn sonic_special_s_turn_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     if !WorkModule::is_flag(fighter.module_accessor, *FIGHTER_SONIC_STATUS_SPECIAL_S_DASH_FLAG_SPECIAL_LW_HOLD) {
         MotionModule::change_motion(
             fighter.module_accessor,
@@ -121,8 +119,7 @@ unsafe extern "C" fn sonic_special_s_turn_main_loop(fighter: &mut L2CFighterComm
     1.into()
 }
 
-#[status_script(agent = "sonic", status = FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_END)]
-unsafe fn sonic_special_s_turn_end(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn sonic_special_s_turn_end(fighter: &mut L2CFighterCommon) -> L2CValue {
     let status = fighter.global_table[STATUS_KIND].get_i32();
     if WorkModule::is_flag(fighter.module_accessor, *FIGHTER_SONIC_STATUS_SPECIAL_S_DASH_FLAG_SPECIAL_LW_HOLD) {
         if status != *FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_DASH {
@@ -205,8 +202,8 @@ unsafe extern "C" fn sonic_special_s_dash_call_script(fighter: &mut L2CFighterCo
     }
 }
 
-pub fn install() {
-    install_status_scripts!(
-        sonic_special_s_turn_pre, sonic_special_s_turn_main, sonic_special_s_turn_end
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.status(Pre, *FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, sonic_special_s_turn_pre);
+    agent.status(Main, *FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, sonic_special_s_turn_main);
+    agent.status(End, *FIGHTER_SONIC_STATUS_KIND_SPECIAL_S_TURN, sonic_special_s_turn_end);
 }

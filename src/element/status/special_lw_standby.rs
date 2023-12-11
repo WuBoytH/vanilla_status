@@ -1,6 +1,6 @@
 use crate::imports::status_imports::*;
 
-pub unsafe fn element_special_lw_standby_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn element_special_lw_standby_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     HitModule::set_whole(fighter.module_accessor, HitStatus(*HIT_STATUS_OFF), 0);
     ItemModule::set_have_item_visibility(fighter.module_accessor, false, 0);
     ItemModule::set_attach_item_visibility(fighter.module_accessor, false, 0xff);
@@ -21,7 +21,7 @@ pub unsafe fn element_special_lw_standby_main(fighter: &mut L2CFighterCommon) ->
     fighter.sub_shift_status_main(L2CValue::Ptr(special_lw_standby_main_loop as *const () as _))
 }
 
-unsafe fn special_lw_standby_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_lw_standby_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[MOTION_FRAME].get_f32() >= 60.0 {
         fighter.change_status(FIGHTER_ELEMENT_STATUS_KIND_SPECIAL_LW_OUT.into(), false.into());
     }

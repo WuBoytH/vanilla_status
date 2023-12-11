@@ -1,7 +1,7 @@
 mod special_s_turn;
 mod special_lw;
 
-pub fn install() {
-    special_s_turn::install();
-    special_lw::install();
+pub fn install(agent: &mut smashline::Agent) {
+    special_s_turn::install(agent);
+    special_lw::install(agent);
 }

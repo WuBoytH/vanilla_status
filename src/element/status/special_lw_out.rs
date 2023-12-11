@@ -1,8 +1,6 @@
-use {
-    crate::imports::status_imports::*
-};
+use crate::imports::status_imports::*;
 
-unsafe fn setup_motion_out(fighter: &mut L2CFighterCommon, first: bool) {
+unsafe extern "C" fn setup_motion_out(fighter: &mut L2CFighterCommon, first: bool) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {
         let mot = hash40("special_air_lw_out");
         if first {
@@ -128,7 +126,7 @@ unsafe fn setup_motion_out(fighter: &mut L2CFighterCommon, first: bool) {
     );
 }
 
-pub unsafe fn element_special_lw_out_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn element_special_lw_out_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.global_table[SITUATION_KIND].get_i32() == *SITUATION_KIND_AIR {
         if WorkModule::get_int(fighter.module_accessor, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT) <= 0 {
             WorkModule::set_int(fighter.module_accessor, 1, *FIGHTER_INSTANCE_WORK_ID_INT_JUMP_COUNT);
@@ -141,7 +139,7 @@ pub unsafe fn element_special_lw_out_main(fighter: &mut L2CFighterCommon) -> L2C
     fighter.sub_shift_status_main(L2CValue::Ptr(special_lw_out_main_loop as *const () as _))
 }
 
-unsafe fn special_lw_out_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_lw_out_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     let cancel = CancelModule::is_enable_cancel(fighter.module_accessor);
     if cancel {
         if fighter.sub_wait_ground_check_common(false.into()).get_bool()

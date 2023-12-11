@@ -1,14 +1,13 @@
 use crate::imports::status_imports::*;
 
-#[status_script(agent = "elight", status = FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_S_END, condition = LUA_SCRIPT_STATUS_FUNC_STATUS_MAIN)]
-pub unsafe fn elight_special_s_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
+pub unsafe extern "C" fn elight_special_s_end_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     fighter.sub_change_motion_by_situation(Hash40::new("special_s_end").into(), Hash40::new("special_air_s_end").into(), false.into());
     fighter.sub_set_ground_correct_by_situation(true.into());
     fighter.sub_set_special_start_common_kinetic_setting(hash40("param_special_s").into());
     fighter.sub_shift_status_main(L2CValue::Ptr(special_s_end_main_loop as *const () as _))
 }
 
-unsafe fn special_s_end_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
+unsafe extern "C" fn special_s_end_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     if fighter.sub_transition_group_check_air_cliff().get_bool() {
         return 0.into();
     }
@@ -43,8 +42,6 @@ unsafe fn special_s_end_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
     0.into()
 }
 
-pub fn install() {
-    install_status_scripts!(
-        elight_special_s_end_main
-    );
+pub fn install(agent: &mut smashline::Agent) {
+    agent.status(Main, *FIGHTER_ELIGHT_STATUS_KIND_SPECIAL_S_END, elight_special_s_end_main);
 }

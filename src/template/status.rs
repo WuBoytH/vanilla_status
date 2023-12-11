@@ -1,5 +1,5 @@
-mod aura;
+mod template;
 
 pub fn install(agent: &mut smashline::Agent) {
-    aura::install(agent);
+    template::install(agent);
 }
