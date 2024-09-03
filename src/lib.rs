@@ -28,6 +28,7 @@ mod table_const;
 mod ike;
 mod sonic;
 mod lucario;
+mod buddy;
 mod edge;
 pub mod element;
 mod eflame;
@@ -38,6 +39,7 @@ pub fn main() {
     ike::install();
     sonic::install();
     lucario::install();
+    buddy::install();
     edge::install();
     eflame::install();
     elight::install();
