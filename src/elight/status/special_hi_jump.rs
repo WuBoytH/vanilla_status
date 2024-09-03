@@ -1,4 +1,4 @@
-use crate::imports::status_imports::*;
+use super::*;
 
 pub unsafe extern "C" fn elight_special_hi_jump_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     MotionModule::change_motion(

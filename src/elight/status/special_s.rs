@@ -1,4 +1,4 @@
-use crate::imports::status_imports::*;
+use super::*;
 
 pub unsafe extern "C" fn elight_special_s_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     fighter.sub_change_motion_by_situation(Hash40::new("special_s_start").into(), Hash40::new("special_air_s_start").into(), false.into());

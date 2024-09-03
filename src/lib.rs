@@ -11,7 +11,19 @@
     clippy::missing_safety_doc
 )]
 
-mod imports;
+use {
+    smash::{
+        lua2cpp::*,
+        hash40,
+        phx::*,
+        app::{lua_bind::*, sv_animcmd::*, *},
+        lib::{lua_const::*, L2CValue}
+    },
+    smash_script::*,
+    smashline::*,
+    crate::table_const::*
+};
+
 mod table_const;
 mod ike;
 mod sonic;

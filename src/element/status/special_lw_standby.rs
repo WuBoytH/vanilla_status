@@ -1,4 +1,4 @@
-use crate::imports::status_imports::*;
+use super::*;
 
 pub unsafe extern "C" fn element_special_lw_standby_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     HitModule::set_whole(fighter.module_accessor, HitStatus(*HIT_STATUS_OFF), 0);

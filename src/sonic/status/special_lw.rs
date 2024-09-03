@@ -1,4 +1,4 @@
-use crate::imports::status_imports::*;
+use super::*;
 
 unsafe extern "C" fn sonic_speciallw_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     StatusModule::init_settings(

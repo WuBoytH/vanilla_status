@@ -1,3 +1,5 @@
+use super::*;
+
 mod special_n;
 mod special_n_hold;
 mod special_n_shoot;

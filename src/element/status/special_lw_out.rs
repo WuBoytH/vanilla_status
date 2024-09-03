@@ -1,4 +1,4 @@
-use crate::imports::status_imports::*;
+use super::*;
 
 unsafe extern "C" fn setup_motion_out(fighter: &mut L2CFighterCommon, first: bool) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {

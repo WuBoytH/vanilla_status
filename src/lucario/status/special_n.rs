@@ -1,7 +1,5 @@
-use {
-    crate::imports::status_imports::*,
-    super::helper::*
-};
+use super::*;
+use super::helper::*;
 
 unsafe extern "C" fn lucario_special_n_pre(fighter: &mut L2CFighterCommon) -> L2CValue {
     fighter.sub_status_pre_SpecialNCommon();

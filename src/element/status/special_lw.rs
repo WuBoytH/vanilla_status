@@ -1,7 +1,5 @@
-use {
-    crate::imports::status_imports::*,
-    super::super::helper::*
-};
+use super::*;
+use super::super::helper::*;
 
 unsafe extern "C" fn setup_motion(fighter: &mut L2CFighterCommon, unk: bool) {
     if fighter.global_table[SITUATION_KIND].get_i32() != *SITUATION_KIND_GROUND {

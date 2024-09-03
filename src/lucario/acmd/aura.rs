@@ -1,4 +1,4 @@
-use crate::imports::acmd_imports::*;
+use super::*;
 
 unsafe extern "C" fn lucario_hadou_handl(fighter: &mut L2CAgentBase) {
     let rot = if get_value_float(fighter.lua_state_agent, *SO_VAR_FLOAT_LR) < 0.0 {
@@ -133,15 +133,15 @@ unsafe extern "C" fn lucario_hadoul_handr(fighter: &mut L2CAgentBase) {
 }
 
 pub fn install(agent: &mut smashline::Agent) {
-    agent.effect_acmd("effect_hadou_l", lucario_hadou_handl);
+    agent.acmd("effect_hadou_l", lucario_hadou_handl, Priority::Default);
 
-    agent.effect_acmd("effect_hadou_r", lucario_hadou_handr);
+    agent.acmd("effect_hadou_r", lucario_hadou_handr, Priority::Default);
 
-    agent.effect_acmd("effect_hadoum_l", lucario_hadoum_handl);
+    agent.acmd("effect_hadoum_l", lucario_hadoum_handl, Priority::Default);
 
-    agent.effect_acmd("effect_hadoum_r", lucario_hadoum_handr);
+    agent.acmd("effect_hadoum_r", lucario_hadoum_handr, Priority::Default);
 
-    agent.effect_acmd("effect_hadoul_l", lucario_hadoul_handl);
+    agent.acmd("effect_hadoul_l", lucario_hadoul_handl, Priority::Default);
 
-    agent.effect_acmd("effect_hadoul_r", lucario_hadoul_handr);
+    agent.acmd("effect_hadoul_r", lucario_hadoul_handr, Priority::Default);
 }
