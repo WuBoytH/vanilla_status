@@ -22,7 +22,7 @@ pub unsafe extern "C" fn element_special_lw_standby_main(fighter: &mut L2CFighte
 }
 
 unsafe extern "C" fn special_lw_standby_main_loop(fighter: &mut L2CFighterCommon) -> L2CValue {
-    if fighter.global_table[MOTION_FRAME].get_f32() >= 60.0 {
+    if fighter.global_table[STATUS_FRAME].get_f32() >= 60.0 {
         fighter.change_status(FIGHTER_ELEMENT_STATUS_KIND_SPECIAL_LW_OUT.into(), false.into());
     }
     0.into()

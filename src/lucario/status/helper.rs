@@ -76,7 +76,7 @@ pub unsafe extern "C" fn lucario_special_air_mot_helper(fighter: &mut L2CFighter
 }
 
 pub unsafe extern "C" fn lucario_special_n_save_charge_status(fighter: &mut L2CFighterCommon) {
-    let kind = fighter.global_table[FIGHTER_KIND].get_i32();
+    let kind = fighter.global_table[KIND].get_i32();
     let status = StatusModule::status_kind(fighter.module_accessor);
     let status_global = fighter.global_table[STATUS_KIND].get_i32();
     let statuses = if kind != *FIGHTER_KIND_KIRBY {
@@ -131,7 +131,7 @@ pub unsafe extern "C" fn lucario_special_n_save_charge_status(fighter: &mut L2CF
 }
 
 unsafe extern "C" fn lucario_special_n_save_charge_status_eff(fighter: &mut L2CFighterCommon) {
-    let kind = fighter.global_table[FIGHTER_KIND].get_i32();
+    let kind = fighter.global_table[KIND].get_i32();
     let status = StatusModule::status_kind(fighter.module_accessor);
     let status_global = fighter.global_table[STATUS_KIND].get_i32();
     let statuses = if kind != *FIGHTER_KIND_KIRBY {
@@ -190,7 +190,7 @@ unsafe extern "C" fn lucario_special_n_save_charge_status_eff(fighter: &mut L2CF
 }
 
 unsafe extern "C" fn lucario_special_n_save_charge_status_shoot(fighter: &mut L2CFighterCommon) {
-    let kind = fighter.global_table[FIGHTER_KIND].get_i32();
+    let kind = fighter.global_table[KIND].get_i32();
     let status = StatusModule::status_kind(fighter.module_accessor);
     let status_global = fighter.global_table[STATUS_KIND].get_i32();
     let statuses = if kind != *FIGHTER_KIND_KIRBY {

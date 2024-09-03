@@ -71,7 +71,7 @@ unsafe extern "C" fn special_s_forward_main_loop(fighter: &mut L2CFighterCommon)
     }
     if !MotionModule::is_end(fighter.module_accessor) {
         let ground_cliff_stop_frame = WorkModule::get_param_int(fighter.module_accessor,hash40("param_special_s"),hash40("ground_cliff_stop_frame")) as f32;
-        if fighter.global_table[MOTION_FRAME].get_f32() >= ground_cliff_stop_frame {
+        if fighter.global_table[STATUS_FRAME].get_f32() >= ground_cliff_stop_frame {
             let is_near_cliff_threshold = WorkModule::get_param_float(fighter.module_accessor,hash40("param_special_s"),hash40("is_near_cliff_threshold"));
             if WorkModule::is_flag(fighter.module_accessor,*FIGHTER_ELIGHT_STATUS_SPECIAL_S_FLAG_IS_CHECK_CLIFF)
             && !WorkModule::is_flag(fighter.module_accessor,*FIGHTER_ELIGHT_STATUS_SPECIAL_S_FLAG_IS_NEAR_CLIFF) {
