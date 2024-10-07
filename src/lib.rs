@@ -1,5 +1,6 @@
 #![feature(concat_idents)]
 #![feature(proc_macro_hygiene)]
+#![feature(simd_ffi)]
 #![allow(
     unused_macros,
     unused_must_use,
@@ -25,6 +26,7 @@ use {
 };
 
 mod table_const;
+mod zelda;
 mod ike;
 mod sonic;
 mod lucario;
@@ -36,6 +38,7 @@ mod elight;
 
 #[skyline::main(name = "vanilla_status")]
 pub fn main() {
+    zelda::install();
     ike::install();
     sonic::install();
     lucario::install();
