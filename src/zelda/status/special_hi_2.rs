@@ -279,7 +279,7 @@ unsafe extern "C" fn zelda_special_hi_2_check_ground(fighter: &mut L2CFighterCom
     lua_args!(fighter, FIGHTER_KINETIC_ENERGY_ID_STOP);
     let speed = get_speed3f(fighter.lua_state_agent);
 
-    let mut length = sv_math::vec3_length(speed.x, speed.y, speed.z);
+    let mut length = sv_math::vec3_length(speed.vec[0], speed.vec[1], speed.vec[2]);
     if 0.0 < length {
         let touch_x = GroundModule::get_touch_normal_x(fighter.module_accessor, touch_flag as u32);
         let touch_y = GroundModule::get_touch_normal_y(fighter.module_accessor, touch_flag as u32);
@@ -289,7 +289,7 @@ unsafe extern "C" fn zelda_special_hi_2_check_ground(fighter: &mut L2CFighterCom
         let mut cross = fighter.Vector3__cross(touch.clone(), something);
 
         let math = 1.0 / length;
-        let speed_mul = Vector3f{x: speed.x * math, y: speed.y * math, z: speed.z * math};
+        let speed_mul = Vector3f{x: speed.vec[0] * math, y: speed.vec[1] * math, z: speed.vec[2] * math};
         let mut final_dot = 0.0;
         if touch_flag != *GROUND_TOUCH_FLAG_DOWN
         && 0.0 < speed_mul.y {
