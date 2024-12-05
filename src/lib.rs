@@ -30,6 +30,7 @@ mod zelda;
 mod ike;
 mod sonic;
 mod lucario;
+mod murabito;
 mod buddy;
 mod edge;
 pub mod element;
@@ -42,6 +43,7 @@ pub fn main() {
     ike::install();
     sonic::install();
     lucario::install();
+    murabito::install();
     buddy::install();
     edge::install();
     eflame::install();
