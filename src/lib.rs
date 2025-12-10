@@ -1,6 +1,7 @@
-#![feature(concat_idents)]
-#![feature(proc_macro_hygiene)]
-#![feature(simd_ffi)]
+#![feature(
+    proc_macro_hygiene,
+    simd_ffi
+)]
 #![allow(
     unused_macros,
     unused_must_use,
@@ -22,10 +23,9 @@ use {
     },
     smash_script::*,
     smashline::*,
-    crate::table_const::*
+    table_const::*
 };
 
-mod table_const;
 mod zelda;
 mod ike;
 mod sonic;
@@ -36,6 +36,7 @@ mod edge;
 pub mod element;
 mod eflame;
 mod elight;
+mod purin;
 
 #[skyline::main(name = "vanilla_status")]
 pub fn main() {
@@ -48,4 +49,5 @@ pub fn main() {
     edge::install();
     eflame::install();
     elight::install();
+    purin::install();
 }

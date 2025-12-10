@@ -17,6 +17,7 @@ smash_script = { git = "https://github.com/blu-dev/smash-script.git", branch = "
 smashline = { git = "https://github.com/HDR-Development/smashline" }
 smash_singletons = { git = "https://github.com/WuBoytH/smash_singletons.git" }
 smash_rs = { package = "smash", git = "https://github.com/blu-dev/smash-rs" }
+table_const = { git = "https://github.com/WuBoytH/table-const" }
 
 [profile.dev]
 panic = "abort"
