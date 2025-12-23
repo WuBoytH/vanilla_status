@@ -37,6 +37,7 @@ pub mod element;
 mod eflame;
 mod elight;
 mod purin;
+mod link;
 
 #[skyline::main(name = "vanilla_status")]
 pub fn main() {
@@ -50,4 +51,5 @@ pub fn main() {
     eflame::install();
     elight::install();
     purin::install();
+    link::install();
 }
