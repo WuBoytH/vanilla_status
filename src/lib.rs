@@ -39,6 +39,7 @@ mod elight;
 mod purin;
 mod trail;
 mod link;
+mod wiifit;
 
 #[skyline::main(name = "vanilla_status")]
 pub fn main() {
@@ -54,4 +55,5 @@ pub fn main() {
     purin::install();
     trail::install();
     link::install();
+    wiifit::install();
 }
