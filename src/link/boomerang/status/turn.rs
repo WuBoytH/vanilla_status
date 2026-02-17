@@ -67,7 +67,7 @@ unsafe extern "C" fn turn_init(weapon: &mut L2CWeaponCommon) -> L2CValue {
     sv_kinetic_energy!(
         set_speed,
         weapon,
-        WEAPON_KINETIC_ENERGY_RESERVE_ID_NORMAL,
+        WEAPON_KINETIC_ENERGY_RESERVE_ID_ROT_NORMAL,
         rot_speed,
         huh,
         0.0
@@ -244,14 +244,20 @@ unsafe extern "C" fn turn_exec_inner(weapon: &mut L2CWeaponCommon) -> L2CValue {
             let y = weapon.pop_lua_stack(1).get_f32();
             weapon.clear_lua_stack();
 
+            // println!("Parent Pos: {}, {}", x, y);
+
             let pos_x = PostureModule::pos_x(weapon.module_accessor);
             let pos_y = PostureModule::pos_y(weapon.module_accessor);
-            
+
+            // println!("Boomerang Pos: {}, {}", pos_x, pos_y);
+
             let diff_x = x - pos_x;
             let diff_y = y - pos_y;
             
             let atan = diff_y.atan2(diff_x);
-            
+
+            // println!("Angle: {}", atan.to_degrees());
+
             let atan = if atan < -std::f32::consts::PI {
                 atan + std::f32::consts::PI * 2.0
             }
@@ -263,6 +269,8 @@ unsafe extern "C" fn turn_exec_inner(weapon: &mut L2CWeaponCommon) -> L2CValue {
                     atan
                 }
             };
+
+            // println!("New Angle 1: {}", atan.to_degrees());
 
             let atan = atan - angle;
             
@@ -278,6 +286,8 @@ unsafe extern "C" fn turn_exec_inner(weapon: &mut L2CWeaponCommon) -> L2CValue {
                 }
             };
 
+            // println!("New Angle 2: {}", atan.to_degrees());
+
             let turn_angle = WorkModule::get_param_float(weapon.module_accessor, hash40("param_boomerang"), hash40("turn_angle")).to_radians();
             let atan = if turn_angle < atan {
                 turn_angle
@@ -291,9 +301,11 @@ unsafe extern "C" fn turn_exec_inner(weapon: &mut L2CWeaponCommon) -> L2CValue {
                 }
             };
 
-            angle = atan;
+            angle += atan;
 
-            WorkModule::set_float(weapon.module_accessor, atan, *WN_LINK_BOOMERANG_INSTANCE_WORK_ID_FLOAT_ANGLE);
+            // println!("New Angle 3: {}", angle.to_degrees());
+
+            WorkModule::set_float(weapon.module_accessor, angle, *WN_LINK_BOOMERANG_INSTANCE_WORK_ID_FLOAT_ANGLE);
             WorkModule::dec_int(weapon.module_accessor, *WN_LINK_BOOMERANG_TURN_WORK_INT_FOLLOW_FRAME);
         }
     }
@@ -301,18 +313,22 @@ unsafe extern "C" fn turn_exec_inner(weapon: &mut L2CWeaponCommon) -> L2CValue {
     weapon.clear_lua_stack();
     lua_args!(weapon, WEAPON_KINETIC_ENERGY_RESERVE_ID_NORMAL);
     let mut length = sv_kinetic_energy::get_speed_length(weapon.lua_state_agent);
+    // println!("Speed Length: {}", length);
     let accel = WorkModule::get_param_float(weapon.module_accessor, hash40("param_boomerang"), hash40("accel"));
     length += accel;
+    // println!("Speed + Accel: {}", length);
     let speed_max = WorkModule::get_param_float(weapon.module_accessor, hash40("param_boomerang"), hash40("speed_max"));
     let speed_mul = WorkModule::get_param_float(weapon.module_accessor, hash40("param_boomerang"), hash40("speed_mul"));
     let speed_max = speed_max * speed_mul;
     if speed_max < length {
         length = speed_max;
     }
+    // println!("New Speed Length: {}", length);
     let cos = angle.cos();
     let sin = angle.sin();
     let vel_x = cos * length;
     let vel_y = sin * length;
+    // println!("X and Y: {}, {}", vel_x, vel_y);
     sv_kinetic_energy!(set_speed, weapon, WEAPON_KINETIC_ENERGY_RESERVE_ID_NORMAL, vel_x, vel_y);
 
     let turn_dist = WorkModule::get_float(weapon.module_accessor, *WN_LINK_BOOMERANG_INSTANCE_WORK_ID_FLOAT_TURN_DIST);
