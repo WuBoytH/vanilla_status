@@ -528,10 +528,10 @@ unsafe extern "C" fn special_s_attack_end(fighter: &mut L2CFighterCommon) -> L2C
 }
 
 pub fn install(agent: &mut smashline::Agent) {
-    agent.status(Pre, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_pre);
-    agent.status(Main, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_main);
-    agent.status(CalcParam, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_calc_param);
-    agent.status(FixPosSlow, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_fix_pos_slow);
-    agent.status(OnChangeLr, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_on_change_lr);
-    agent.status(End, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_end);
+    // agent.status(Pre, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_pre);
+    // agent.status(Main, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_main);
+    // agent.status(CalcParam, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_calc_param);
+    // agent.status(FixPosSlow, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_fix_pos_slow);
+    // agent.status(OnChangeLr, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_on_change_lr);
+    // agent.status(End, *FIGHTER_TRAIL_STATUS_KIND_SPECIAL_S_ATTACK, special_s_attack_end);
 }
