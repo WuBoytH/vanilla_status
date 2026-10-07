@@ -31,8 +31,8 @@ unsafe extern "C" fn lucario_special_n_hold_pre(fighter: &mut L2CFighterCommon) 
 
 unsafe extern "C" fn lucario_special_n_hold_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_FLAG_MOT_INHERIT);
-    WorkModule::set_int64(fighter.module_accessor, hash40("special_n_hold") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_GROUND_MOT);
-    WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_hold") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AIR_MOT);
+    WorkModule::set_int64(fighter.module_accessor, hash40("special_n_hold") as u64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_GROUND_MOT);
+    WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_hold") as u64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AIR_MOT);
     ArticleModule::change_status(
         fighter.module_accessor,
         *FIGHTER_LUCARIO_GENERATE_ARTICLE_AURABALL,

@@ -43,12 +43,12 @@ unsafe extern "C" fn special_hi_main(fighter: &mut L2CFighterCommon) -> L2CValue
     // In the vanilla script, the lua const says SPECIAL_LW instead of SPECIAL_HI,
     // though both exist and share the same internal value.
     if lr == 1.0 {
-        WorkModule::set_int64(fighter.module_accessor, hash40("special_hi_r") as i64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_GROUND);
-        WorkModule::set_int64(fighter.module_accessor, hash40("special_air_hi_r") as i64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_AIR);
+        WorkModule::set_int64(fighter.module_accessor, hash40("special_hi_r") as u64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_GROUND);
+        WorkModule::set_int64(fighter.module_accessor, hash40("special_air_hi_r") as u64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_AIR);
     }
     else {
-        WorkModule::set_int64(fighter.module_accessor, hash40("special_hi_l") as i64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_GROUND);
-        WorkModule::set_int64(fighter.module_accessor, hash40("special_air_hi_l") as i64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_AIR);
+        WorkModule::set_int64(fighter.module_accessor, hash40("special_hi_l") as u64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_GROUND);
+        WorkModule::set_int64(fighter.module_accessor, hash40("special_air_hi_l") as u64, *FIGHTER_PURIN_STATUS_SPECIAL_LW_WORK_INT_MOTION_KIND_AIR);
     }
     fighter.sub_shift_status_main(L2CValue::Ptr(special_hi_main_loop as *const () as _))
 }

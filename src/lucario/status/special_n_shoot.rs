@@ -3,8 +3,8 @@ use super::helper::*;
 
 unsafe extern "C" fn lucario_special_n_shoot_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     WorkModule::off_flag(fighter.module_accessor, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_FLAG_MOT_INHERIT);
-    WorkModule::set_int64(fighter.module_accessor, hash40("special_n_shoot") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_GROUND_MOT);
-    WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_shoot") as i64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AIR_MOT);
+    WorkModule::set_int64(fighter.module_accessor, hash40("special_n_shoot") as u64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_GROUND_MOT);
+    WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_shoot") as u64, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AIR_MOT);
     let charge = WorkModule::get_int(fighter.module_accessor, *FIGHTER_LUCARIO_INSTANCE_WORK_ID_INT_AURABALL_CHARGE_FRAME);
     let max_charge_frame = WorkModule::get_param_float(fighter.module_accessor, hash40("param_special_n"), hash40("max_charge_frame"));
     if max_charge_frame < charge as f32 {
