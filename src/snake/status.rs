@@ -12,6 +12,12 @@ pub unsafe extern "C" fn special_n_set_ground(fighter: &mut L2CFighterCommon) {
     GroundModule::correct(fighter.module_accessor, GroundCorrectKind(*GROUND_CORRECT_KIND_GROUND));
 }
 
+pub unsafe extern "C" fn special_n_exit_common(fighter: &mut L2CFighterCommon) -> L2CValue {
+    let status = fighter.global_table[STATUS_KIND].get_i32();
+    fighter.sub_ftStatusUniqProcessShoot_exitShoot_Common(status.into());
+    0.into()
+}
+
 pub unsafe extern "C" fn special_n_end_common(fighter: &mut L2CFighterCommon) {
     let status = fighter.global_table[STATUS_KIND].get_i32();
     if ![
@@ -34,7 +40,7 @@ pub unsafe extern "C" fn special_n_end_common(fighter: &mut L2CFighterCommon) {
             fighta,
             *FIGHTER_SNAKE_GENERATE_ARTICLE_GRENADE,
             ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST)
-        ) == 1 {
+        ) {
             ArticleModule::shoot_exist(
                 fighter.module_accessor,
                 *FIGHTER_SNAKE_GENERATE_ARTICLE_GRENADE,

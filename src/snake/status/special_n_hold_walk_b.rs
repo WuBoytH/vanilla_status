@@ -64,5 +64,6 @@ pub fn install(agent: &mut smashline::Agent) {
     agent.status(Init, *FIGHTER_SNAKE_STATUS_KIND_SPECIAL_N_HOLD_WALK_B, special_n_init_common);
     agent.status(Main, *FIGHTER_SNAKE_STATUS_KIND_SPECIAL_N_HOLD_WALK_B, special_n_hold_walk_b_main);
     agent.status(Exec, *FIGHTER_SNAKE_STATUS_KIND_SPECIAL_N_HOLD_WALK_B, special_n_exec_common);
+    agent.status(Exit, *FIGHTER_SNAKE_STATUS_KIND_SPECIAL_N_HOLD_WALK_B, special_n_exit_common);
     agent.status(End, *FIGHTER_SNAKE_STATUS_KIND_SPECIAL_N_HOLD_WALK_B, special_n_hold_walk_b_end);
 }

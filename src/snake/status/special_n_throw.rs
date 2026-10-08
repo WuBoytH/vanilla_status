@@ -33,11 +33,11 @@ unsafe extern "C" fn special_n_throw_pre(fighter: &mut L2CFighterCommon) -> L2CV
 
 unsafe extern "C" fn special_n_throw_main(fighter: &mut L2CFighterCommon) -> L2CValue {
     let fighta = fighter.global_table[FIGHTER].get_ptr() as *mut Fighter;
-    if FighterSpecializer_Snake::is_constraint_article(
+    if !FighterSpecializer_Snake::is_constraint_article(
         fighta,
         *FIGHTER_SNAKE_GENERATE_ARTICLE_GRENADE,
         ArticleOperationTarget(*ARTICLE_OPE_TARGET_LAST)
-    ) != 1 {
+    ) {
         WorkModule::set_int64(fighter.module_accessor, hash40("special_n_throw_fail"), *FIGHTER_SNAKE_STATUS_WORK_INT_MOT_KIND);
         WorkModule::set_int64(fighter.module_accessor, hash40("special_air_n_throw_fail"), *FIGHTER_SNAKE_STATUS_WORK_INT_MOT_AIR_KIND);
     }
